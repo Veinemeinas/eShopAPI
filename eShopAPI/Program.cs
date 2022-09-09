@@ -12,6 +12,7 @@ builder.Services.AddDbContext<eShopContext>(options =>
     options.UseSqlServer(connectionString);
 });
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
