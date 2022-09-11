@@ -1,6 +1,18 @@
+using eShopAPI.Context;
+using eShopAPI.Interfaces;
+using eShopAPI.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<eShopContext>(options =>
+{
+    options.UseSqlServer(connectionString);
+});
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
+builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
