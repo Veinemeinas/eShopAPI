@@ -24,10 +24,11 @@ namespace eShopAPI.Repositories
             return await _context.Products.FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<int> AddProduct(Product product)
+        public async Task<Product> AddProduct(Product product)
         {
-            await _context.Products.AddAsync(product);
-            return await _context.SaveChangesAsync();
+            var result = await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
+            return result.Entity;
         }
     }
 }

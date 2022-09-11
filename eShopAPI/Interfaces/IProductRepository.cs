@@ -8,6 +8,6 @@ namespace eShopAPI.Interfaces
 
         public Task<Product> GetProduct(int id);
 
-        public Task<int> AddProduct(Product product);
+        public Task<Product> AddProduct(Product product);
     }
 }

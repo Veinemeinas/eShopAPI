@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using eShopAPI.DTO_s;
+using eShopAPI.Interfaces;
 using eShopAPI.Models;
-using eShopAPI.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eShopAPI.Controllers
@@ -10,15 +10,16 @@ namespace eShopAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly ProductRepository _productRepository;
+        private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
 
-        public ProductController(ProductRepository productRepository, IMapper mapper)
+        public ProductController(IProductRepository productRepository, IMapper mapper)
         {
             _productRepository = productRepository;
             _mapper = mapper;
         }
 
+        [HttpGet]
         public async Task<IActionResult> GetProducts()
         {
             var products = await _productRepository.GetProducts();
@@ -44,13 +45,14 @@ namespace eShopAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddProduct(ProductDto productDto)
         {
-            var product = _mapper.Map<Product>(productDto);
-            var result = await _productRepository.AddProduct(product);
-            if (result == 0)
+            var mappedProduct = _mapper.Map<Product>(productDto);
+            var product = await _productRepository.AddProduct(mappedProduct);
+            if (product == null)
             {
                 return BadRequest();
             }
-            return Ok();
+            var url = $"{Request.Scheme}://{Request.Host.Value}{Request.Path}/{product.Id}";
+            return Created(url, product);
         }
     }
 }

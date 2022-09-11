@@ -11,7 +11,7 @@ builder.Services.AddDbContext<eShopContext>(options =>
 {
     options.UseSqlServer(connectionString);
 });
-builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddTransient<IProductRepository, ProductRepository>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddControllers();

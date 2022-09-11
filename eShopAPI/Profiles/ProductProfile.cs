@@ -8,7 +8,7 @@ namespace eShopAPI.Profiles
     {
         public ProductProfile()
         {
-            CreateMap<ProductDto, Product>()
+            CreateMap<ProductDto, Product>();
         }
     }
 }
